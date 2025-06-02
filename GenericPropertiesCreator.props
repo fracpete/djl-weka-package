@@ -1,0 +1,15 @@
+# classifiers
+weka.classifiers.Classifier=\
+  weka.classifiers.djl
+
+# ID generators
+weka.classifiers.djl.idgenerator.IDGenerator=\
+  weka.classifiers.djl.idgenerator
+
+# network generators
+weka.classifiers.djl.networkgenerator.NetworkGenerator=\
+  weka.classifiers.djl.networkgenerator
+
+# output directory generators
+weka.classifiers.djl.outputdirgenerator.OutputDirGenerator=\
+  weka.classifiers.djl.outputdirgenerator

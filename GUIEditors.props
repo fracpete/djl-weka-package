@@ -1,0 +1,11 @@
+# ID generators
+weka.classifiers.djl.idgenerator.IDGenerator=weka.gui.GenericObjectEditor
+weka.classifiers.djl.idgenerator.IDGenerator[]=weka.gui.GenericArrayEditor
+
+# network generators
+weka.classifiers.djl.networkgenerator.NetworkGenerator=weka.gui.GenericObjectEditor
+weka.classifiers.djl.networkgenerator.NetworkGenerator[]=weka.gui.GenericArrayEditor
+
+# output directory generators
+weka.classifiers.djl.outputdirgenerator.OutputDirGenerator=weka.gui.GenericObjectEditor
+weka.classifiers.djl.outputdirgenerator.OutputDirGenerator[]=weka.gui.GenericArrayEditor

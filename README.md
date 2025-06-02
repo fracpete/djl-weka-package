@@ -1,2 +1,65 @@
 # djl-weka-package
-Weka package for applying Deep Learning using Deep Java Library (DJL).
+Weka package for applying [Deep Learning using Deep Java Library (DJL)](https://djl.ai/).
+
+Uses the [PyTorch engine](https://docs.djl.ai/master/engines/pytorch/pytorch-engine/index.html) 
+for the models.
+
+
+## Classifiers
+
+The following classifiers are available:
+
+* `weka.classifiers.djl.DJLRegressor` - for regression problems
+
+
+## Network generators
+
+Network generators construct the network that is being learned. Also used 
+when deserializing the model, as the `.params` files do not contain the
+structure.
+
+* `weka.classifiers.djl.network.TabularRegressionGenerator`
+
+
+## ID generators
+
+The ID generators are used to generate a prefix for the `.params` files
+that the training process generates.
+
+* `weka.classifiers.djl.idgenerator.FixedID`
+
+
+## Output generators
+
+Since the underlying network cannot be serialized within the Weka model itself,
+the PyTorch parameters need to get stored in a directory. The output generators
+are used for generating that output directory:
+
+* `weka.classifiers.djl.outputdirgenerator.FixedDir`
+
+
+## How to use packages
+
+For more information on how to install the package, see:
+
+https://waikato.github.io/weka-wiki/packages/manager/
+
+
+## Maven
+
+Add the following dependency in your `pom.xml` to include the package:
+
+```xml
+    <dependency>
+      <groupId>com.github.fracpete</groupId>
+      <artifactId>djl-weka-package</artifactId>
+      <version>2025.6.30-SNAPSHOT</version>
+      <type>jar</type>
+      <exclusions>
+        <exclusion>
+          <groupId>nz.ac.waikato.cms.weka</groupId>
+          <artifactId>weka-dev</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+```
