@@ -38,6 +38,29 @@ are used for generating that output directory:
 * `weka.classifiers.djl.outputdirgenerator.FixedDir`
 
 
+## Launch via Maven
+
+You can launch Weka and the DJL package directly via Maven as follows:
+
+```bash
+mvn exec:java
+```
+
+The amount of heap size is controlled via the `MAVEN_OPTS` environment variable.
+
+On Linux/Mac:
+
+```bash
+export MAVEN_OPTS=-Xmx2g
+```
+
+Or on Windows:
+
+```bash
+set MAVEN_OPTS=-Xmx2g
+```
+
+
 ## How to use packages
 
 For more information on how to install the package, see:

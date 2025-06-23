@@ -395,6 +395,24 @@
           </execution>
         </executions>
       </plugin>
+
+      <!-- start Weka with: mvn exec:java -->
+      <!-- control heap size with: MAVEN_OPTS=-Xmx2g -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.5.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>weka.gui.GUIChooser</mainClass>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>
