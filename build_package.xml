@@ -31,6 +31,9 @@
       <include name="*.jar"/>
       <include name="*.zip"/>
     </fileset>
+    <fileset dir="./jars">
+      <include name="*.jar"/>
+    </fileset>
     <pathelement location="${build}/classes"/>
     <pathelement location="${build}/testcases"/>
     <pathelement path="${java.class.path}" />
@@ -163,6 +166,9 @@
       <fileset dir="${dist}">
         <include name="*.jar"/>
       </fileset>
+      <fileset dir="./jars">
+        <include name="*.jar"/>
+      </fileset>
     </copy>
     <delete>
       <fileset dir="${dist}">
@@ -172,6 +178,8 @@
     <copy file="Description.props"
           todir="${dist}/${package}"/>
     <copy file="GenericPropertiesCreator.props"
+          todir="${dist}/${package}"/>
+    <copy file="GUIEditors.props"
           todir="${dist}/${package}"/>
     <mkdir dir="${dist}/${package}/lib"/>
     <copy todir="${dist}/${package}/lib" >
