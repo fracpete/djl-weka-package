@@ -294,6 +294,13 @@
               </includes>
               <followSymlinks>false</followSymlinks>
             </fileset>
+            <fileset>
+              <directory>jars</directory>
+              <includes>
+                <include>*</include>
+              </includes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
           </filesets>
         </configuration>
       </plugin>
@@ -372,7 +379,7 @@
               <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-all.graphml</outputFile>
             </configuration>
           </execution>
-          <!-- get all binary jars -->
+          <!-- get all binary jars (for ant, see build_package.xml) -->
           <execution>
             <id>all-jars</id>
             <phase>prepare-package</phase>
@@ -381,7 +388,7 @@
             </goals>
             <configuration>
               <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
-              <outputDirectory>${project.build.directory}/all-jars</outputDirectory>
+              <outputDirectory>./jars</outputDirectory>
               <includeScope>compile</includeScope>
               <excludeArtifactIds>all,arpack_combined_all,bounce,core,istack-commons-runtime,jakarta.activation-api,jakarta.xml.bind-api,java-cup,java-cup-runtime,jaxb-runtime,jclipboardhelper,jfilechooser-bookmarks,jniloader,mtj,native_ref-java,native_system-java,netlib-java,netlib-native_ref-linux-armhf,netlib-native_ref-linux-i686,netlib-native_ref-linux-x86_64,netlib-native_ref-osx-x86_64,netlib-native_ref-win-i686,netlib-native_ref-win-x86_64,netlib-native_system-linux-armhf,netlib-native_system-linux-i686,netlib-native_system-linux-x86_64,netlib-native_system-osx-x86_64,netlib-native_system-win-i686,netlib-native_system-win-x86_64,txw2,weka-dev</excludeArtifactIds>
             </configuration>
