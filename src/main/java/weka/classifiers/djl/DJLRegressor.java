@@ -34,12 +34,6 @@ import ai.djl.training.listener.TrainingListener;
 import ai.djl.training.loss.TabNetRegressionLoss;
 import ai.djl.translate.Translator;
 import weka.classifiers.AbstractClassifier;
-import weka.core.Capabilities;
-import weka.core.Capabilities.Capability;
-import weka.core.Instance;
-import weka.core.Instances;
-import weka.core.Option;
-import weka.core.Utils;
 import weka.classifiers.djl.dataset.InstancesDataset;
 import weka.classifiers.djl.idgenerator.FixedID;
 import weka.classifiers.djl.idgenerator.IDGenerator;
@@ -47,6 +41,12 @@ import weka.classifiers.djl.networkgenerator.NetworkGenerator;
 import weka.classifiers.djl.networkgenerator.TabularRegressionGenerator;
 import weka.classifiers.djl.outputdirgenerator.FixedDir;
 import weka.classifiers.djl.outputdirgenerator.OutputDirGenerator;
+import weka.core.Capabilities;
+import weka.core.Capabilities.Capability;
+import weka.core.Instance;
+import weka.core.Instances;
+import weka.core.Option;
+import weka.core.Utils;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -158,7 +158,7 @@ public class DJLRegressor
     while (enm.hasMoreElements())
       result.add(enm.nextElement());
 
-    return new Vector<Option>().elements();
+    return result.elements();
   }
 
   /**
@@ -499,6 +499,9 @@ public class DJLRegressor
     splitDataset    = m_Dataset.randomSplit(m_TrainPercentage, 100 - m_TrainPercentage);
     trainDataset    = splitDataset[0];
     validateDataset = splitDataset[1];
+
+    DJLUtils.initClassLoader(this);
+    DJLUtils.registerPytorch();
 
     m_Model = Model.newInstance("tabular");
     m_Model.setBlock(m_Network.generate(m_Dataset));
