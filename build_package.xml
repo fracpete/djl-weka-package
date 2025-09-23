@@ -166,9 +166,6 @@
       <fileset dir="${dist}">
         <include name="*.jar"/>
       </fileset>
-      <fileset dir="./jars">
-        <include name="*.jar"/>
-      </fileset>
     </copy>
     <delete>
       <fileset dir="${dist}">
@@ -189,6 +186,9 @@
          <exclude name="weka.jar"/>
          <exclude name="weka-tests.jar"/>
        </fileset>
+      <fileset dir="./jars">
+        <include name="*.jar"/>
+      </fileset>
     </copy>
     <mkdir dir="${dist}/${package}/doc"/>
     <copy todir="${dist}/${package}/doc" >
