@@ -1,14 +1,11 @@
-# Template Description file for a Weka package
-# 
-
 # Package name (required)
 PackageName=djl
 
 # Version (required)
-Version=2025.6.30
+Version=2025.9.23
 
 #Date (year-month-day)
-Date=2025-06-30
+Date=2025-09-23
 
 # Title (required)
 Title=Deep Java Library
@@ -29,7 +26,7 @@ License=GPL 3.0
 Description=Allows applying deep learning networks based on the Deep Java Library (https://djl.ai/). Libraries necessary for performing the learning tasks will be automatically downloaded based on operating system and hardware architecture.
 
 # Package URL for obtaining the package archive (required)
-PackageURL=https://github.com/fracpete/djl-weka-package/releases/download/v2025.6.38/djl-2025.6.30.zip
+PackageURL=https://github.com/fracpete/djl-weka-package/releases/download/v2025.9.23/djl-2025.9.23.zip
 
 # URL for further information
 URL=https://github.com/fracpete/djl-weka-package
@@ -41,7 +38,7 @@ Enhances=
 Related=
 
 # Dependencies (format: packageName (equality/inequality version_number)
-Depends=weka (>=3.7.11)
+Depends=weka (>=3.9.6)
 
 # Message to display in installation. Can be used to provide
 # special instructions (e.g. manual stuff needed to complete
