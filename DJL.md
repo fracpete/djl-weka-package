@@ -4,6 +4,8 @@ The following instructions are for creating custom DJL API jar (`v0.34.0`)
 for the Weka DJL package (version `2025.6.30`), allowing Weka to set a custom 
 class loader context.
 
+## Prepare DJL fork
+
 * fork the djl repository (all, not just master branch):
 
   https://github.com/deepjavalibrary/djl
@@ -19,6 +21,8 @@ class loader context.
   ```bash
   git checkout -b v0.34.0 tags/v0.34.0
   ```
+
+## Update DJL code base
   
 * edit `api/build.gradle.kts`
 
@@ -45,7 +49,9 @@ class loader context.
   api/src/main/java/ai/djl/util/ClassLoaderUtils.java
   ```
 
-* build project (top-level dir)
+## Build DJL and Weka package
+
+* build DJL fork (top-level dir)
 
   ```bash
   ./gradlew clean
@@ -61,7 +67,7 @@ class loader context.
 * remove old Maven artifacts
 
   ```bash
-  rm -R .m2/repository/ai/djl/api/0.34.0-SNAPSHOT
+  rm -R ~/.m2/repository/ai/djl/api/0.34.0-SNAPSHOT
   ```
 
 * publish DJL API artifacts locally (top-level dir)
@@ -76,13 +82,15 @@ class loader context.
   ~/.m2/repository/ai/djl/api/0.34.0-SNAPSHOT/
   ```
 
-* copy api-0.34.0-XYZ.jar into `jars` directory
+* copy `api-0.34.0-XYZ.jar` into `jars` directory
 
 * build Weka package
   
   ```bash
   ant -f build_package.xml -Dpackage=djl-2025.6.30 clean make_package
   ```
+
+## Use Weka package
 
 * install Weka package
 
@@ -96,5 +104,5 @@ class loader context.
   ```bash
   java -Dorg.slf4j.simpleLogger.defaultLogLevel=DEBUG \
     -cp ./lib/weka.jar \
-    weka.gui.explorer.Explorer ~/development/datasets/numeric/bolts.arff
+    weka.gui.explorer.Explorer ./data/bolts.arff
   ```
