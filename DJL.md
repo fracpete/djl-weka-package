@@ -58,6 +58,8 @@ class loader context.
   ./gradlew build -x test
   ```
 
+* switch to Java 11
+
 * gather all Maven dependencies in `jars` directory of package:
 
   ```bash
