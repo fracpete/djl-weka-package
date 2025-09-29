@@ -21,6 +21,7 @@
 package weka.classifiers.djl;
 
 import ai.djl.engine.Engine;
+import ai.djl.pytorch.engine.PtEngine;
 import ai.djl.pytorch.engine.PtEngineProvider;
 import ai.djl.util.ClassLoaderUtils;
 import weka.core.WekaPackageClassLoaderManager;
@@ -34,9 +35,30 @@ import java.lang.reflect.Method;
  */
 public class DJLUtils {
 
+  /** the environment variable to set the global random seed. */
+  public final static String DJL_RANDOM_SEED = "DJL_RANDOM_SEED";
+
   private static boolean ClassLoaderUtilsExceptionShown = false;
 
   private static boolean EngineExceptionShown = false;
+
+  /**
+   * Sets the random seed to use for the PyTorch engine.
+   *
+   * @param seed	the seed
+   */
+  public static void setPyTorchSeed(int seed) {
+    Engine.getEngine(PtEngine.ENGINE_NAME).setRandomSeed(seed);
+  }
+
+  /**
+   * Returns the random seed used by the PyTorch engine.
+   *
+   * @return		the seed
+   */
+  public static int getPyTorchSeed() {
+    return Engine.getEngine(PtEngine.ENGINE_NAME).getSeed();
+  }
 
   /**
    * Initialize the classloader using the current context.
