@@ -33,7 +33,7 @@ import ai.djl.training.dataset.Dataset;
 import ai.djl.training.listener.TrainingListener;
 import ai.djl.training.loss.TabNetRegressionLoss;
 import ai.djl.translate.Translator;
-import weka.classifiers.AbstractClassifier;
+import weka.classifiers.RandomizableClassifier;
 import weka.classifiers.djl.dataset.InstancesDataset;
 import weka.classifiers.djl.idgenerator.FixedID;
 import weka.classifiers.djl.idgenerator.IDGenerator;
@@ -65,7 +65,7 @@ import java.util.Vector;
  * @author fracpete (fracpete at waikato dot ac dot nz)
  */
 public class DJLRegressor
-  extends AbstractClassifier
+  extends RandomizableClassifier
   implements AutoCloseable {
 
   private static final long serialVersionUID = -8361229968357782660L;
@@ -519,6 +519,7 @@ public class DJLRegressor
 
     DJLUtils.initClassLoader(this);
     DJLUtils.registerPytorch();
+    DJLUtils.setPyTorchSeed(m_Seed);
 
     synchronized (m_Models) {
       if (m_Models.containsKey(modelName)) {
