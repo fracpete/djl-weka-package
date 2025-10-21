@@ -1,7 +1,7 @@
 # DJL
 
 The following instructions are for creating custom DJL API jar (`v0.34.0`)
-for the Weka DJL package (version `2025.9.23`), allowing Weka to set a custom 
+for the Weka DJL package (version `2025.10.21`), allowing Weka to set a custom 
 class loader context.
 
 ## Prepare DJL fork
@@ -94,7 +94,7 @@ class loader context.
 * build Weka package
   
   ```bash
-  ant -f build_package.xml -Dpackage=djl-2025.9.23 clean make_package
+  ant -f build_package.xml -Dpackage=djl-2025.10.21 clean make_package
   ```
 
 ## Use Weka package
@@ -103,7 +103,7 @@ class loader context.
 
   ```bash
   java -cp ./lib/weka.jar weka.core.WekaPackageManager -uninstall-package djl \
-    && java -cp ./lib/weka.jar weka.core.WekaPackageManager -install-package ./dist/djl-2025.9.23.zip 
+    && java -cp ./lib/weka.jar weka.core.WekaPackageManager -install-package ./dist/djl-2025.10.21.zip 
   ```
 
 * launch Explorer with a dataset
