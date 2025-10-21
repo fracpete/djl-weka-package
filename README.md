@@ -18,7 +18,15 @@ Network generators construct the network that is being learned. Also used
 when deserializing the model, as the `.params` files do not contain the
 structure.
 
+* `weka.classifiers.djl.network.GroovyGenerator`
 * `weka.classifiers.djl.network.TabularRegressionGenerator`
+
+
+### GroovyGenerator
+
+The following example generators using Groovy are available:
+
+* [tabnet.groovy](src/main/groovy/tabnet.groovy)
 
 
 ## ID generators
