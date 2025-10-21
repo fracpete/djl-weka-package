@@ -4,6 +4,7 @@ The following instructions are for creating custom DJL API jar (`v0.34.0`)
 for the Weka DJL package (version `2025.10.21`), allowing Weka to set a custom 
 class loader context.
 
+
 ## Prepare DJL fork
 
 * fork the djl repository (all, not just master branch):
@@ -49,6 +50,11 @@ class loader context.
   api/src/main/java/ai/djl/util/ClassLoaderUtils.java
   ```
 
+* current repo with these changes:
+
+  https://github.com/fracpete/djl
+
+
 ## Build DJL and Weka package
 
 * enable Java 11
@@ -61,7 +67,7 @@ class loader context.
   mvn clean generate-resources
   ```
 
-* remove old Maven DJL artifacts
+* remove old Maven DJL artifacts from Maven repository:
 
   ```bash
   rm -R ~/.m2/repository/ai/djl/api/0.34.0-SNAPSHOT
@@ -69,14 +75,14 @@ class loader context.
 
 * switch to **DJL** project (top-level dir)
 
-* build DJL fork
+* build DJL fork:
 
   ```bash
   ./gradlew clean
   ./gradlew build -x test
   ```
   
-* publish DJL API artifacts locally
+* publish DJL API artifacts locally:
 
   ```bash
   ./gradlew publish
@@ -91,22 +97,25 @@ class loader context.
   cp ~/.m2/repository/ai/djl/api/0.34.0-SNAPSHOT/api-0.34.0-*[0-9].jar jars
   ```
 
-* build Weka package
+* build Weka package:
   
   ```bash
   ant -f build_package.xml -Dpackage=djl-2025.10.21 clean make_package
   ```
 
+
 ## Use Weka package
 
-* install Weka package
+The following commands are to be issued from within the **djl-weka-package** project:
+
+* install Weka package:
 
   ```bash
   java -cp ./lib/weka.jar weka.core.WekaPackageManager -uninstall-package djl \
     && java -cp ./lib/weka.jar weka.core.WekaPackageManager -install-package ./dist/djl-2025.10.21.zip 
   ```
-
-* launch Explorer with a dataset
+  
+* launch Explorer with a dataset:
 
   ```bash
   java -Dorg.slf4j.simpleLogger.defaultLogLevel=DEBUG \
