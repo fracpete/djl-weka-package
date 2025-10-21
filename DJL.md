@@ -51,14 +51,9 @@ class loader context.
 
 ## Build DJL and Weka package
 
-* build DJL fork (top-level dir)
+* enable Java 11
 
-  ```bash
-  ./gradlew clean
-  ./gradlew build -x test
-  ```
-
-* switch to Java 11
+* switch to **djl-weka-package** project
 
 * gather all Maven dependencies in `jars` directory of package:
 
@@ -66,25 +61,35 @@ class loader context.
   mvn clean generate-resources
   ```
 
-* remove old Maven artifacts
+* remove old Maven DJL artifacts
 
   ```bash
   rm -R ~/.m2/repository/ai/djl/api/0.34.0-SNAPSHOT
   ```
 
-* publish DJL API artifacts locally (top-level dir)
+* switch to **DJL** project (top-level dir)
+
+* build DJL fork
+
+  ```bash
+  ./gradlew clean
+  ./gradlew build -x test
+  ```
+  
+* publish DJL API artifacts locally
 
   ```bash
   ./gradlew publish
   ```
 
-* go to Maven repository
+* switch back to **djl-weka-package** project
 
-  ```
-  ~/.m2/repository/ai/djl/api/0.34.0-SNAPSHOT/
-  ```
+* copy `api-0.34.0-XYZ.jar` into `jars` directory, replacing `api-0.34.0.jar`:
 
-* copy `api-0.34.0-XYZ.jar` into `jars` directory
+  ```bash
+  rm jars/api-0.34.0.jar
+  cp ~/.m2/repository/ai/djl/api/0.34.0-SNAPSHOT/api-0.34.0-*[0-9].jar jars
+  ```
 
 * build Weka package
   
