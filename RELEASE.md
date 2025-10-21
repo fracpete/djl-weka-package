@@ -19,14 +19,7 @@
 
 ## Weka package
 
-* Commit/push all changes
-
-* Run the following command to generate the package archive for version `2025.9.23`:
-
-  ```bash
-  ant -f build_package.xml -Dpackage=djl-2025.9.23 clean make_package
-  ```
-
+* See the [DJL](DJL.md) document for generating the package
 * Create a release tag on github (v2025.9.23)
 * add release notes
 * upload package archive from `dist`
