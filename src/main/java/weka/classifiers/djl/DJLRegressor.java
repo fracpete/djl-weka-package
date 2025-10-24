@@ -46,6 +46,7 @@ import weka.core.Capabilities.Capability;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Option;
+import weka.core.UniqueIDs;
 import weka.core.Utils;
 
 import java.io.Closeable;
@@ -60,7 +61,63 @@ import java.util.Map;
 import java.util.Vector;
 
 /**
+ <!-- globalinfo-start -->
  * Uses Deep Java Library for building a regression model.
+ * <br><br>
+ <!-- globalinfo-end -->
+ *
+ <!-- options-start -->
+ * Valid options are: <p>
+ *
+ * <pre> -network &lt;classname + options&gt;
+ *  The network generator to use.
+ *  (default: weka.classifiers.djl.networkgenerator.TabularRegressionGenerator)</pre>
+ *
+ * <pre> -train-percentage &lt;int&gt;
+ *  The percentage of the dataset to use for training (1-99).
+ *  The rest will get used for validation.
+ *  (default: 80)</pre>
+ *
+ * <pre> -mini-batch-size &lt;int&gt;
+ *  The size to use for the mini batches.
+ *  (default: 32)</pre>
+ *
+ * <pre> -num-epochs &lt;int&gt;
+ *  The number of epochs to use for training.
+ *  (default: 20)</pre>
+ *
+ * <pre> -id &lt;classname + options&gt;
+ *  The ID generator to use (ID = prefix of model).
+ *  (default: weka.classifiers.djl.idgenerator.FixedID)</pre>
+ *
+ * <pre> -output-dir &lt;classname + options&gt;
+ *  The output directory generator to use.
+ *  (default: weka.classifiers.djl.outputdirgenerator.FixedDir)</pre>
+ *
+ * <pre> -support-parallel-execution
+ *  Whether to enable support for parallel execution,
+ *  requires user to manually delete left-over model files (.params).
+ *  (default: disabled)</pre>
+ *
+ * <pre> -S &lt;num&gt;
+ *  Random number seed.
+ *  (default 1)</pre>
+ *
+ * <pre> -output-debug-info
+ *  If set, classifier is run in debug mode and
+ *  may output additional info to the console</pre>
+ *
+ * <pre> -do-not-check-capabilities
+ *  If set, classifier capabilities are not checked before classifier is built
+ *  (use with caution).</pre>
+ *
+ * <pre> -num-decimal-places
+ *  The number of decimal places for the output of numbers in the model (default 2).</pre>
+ *
+ * <pre> -batch-size
+ *  The desired batch size for batch prediction  (default 100).</pre>
+ *
+ <!-- options-end -->
  *
  * @author fracpete (fracpete at waikato dot ac dot nz)
  */
@@ -90,6 +147,9 @@ public class DJLRegressor
 
   /** the output dir generator. */
   protected OutputDirGenerator m_OutputDir = new FixedDir();
+
+  /** whether to support parallel execution. */
+  protected boolean m_SupportParallelExecution = false;
 
   /** the header. */
   protected Instances m_Header;
@@ -137,7 +197,7 @@ public class DJLRegressor
 
     result.add(new Option(
       "\tThe percentage of the dataset to use for training (1-99).\n"
-        + "\tThe rest will get used for validation.\n"
+	+ "\tThe rest will get used for validation.\n"
 	+ "\t(default: 80)",
       "train-percentage", 1, "-train-percentage <int>"));
 
@@ -160,6 +220,12 @@ public class DJLRegressor
       "\tThe output directory generator to use.\n"
 	+ "\t(default: " + FixedDir.class.getName() + ")",
       "output-dir", 1, "-output-dir <classname + options>"));
+
+    result.add(new Option(
+      "\tWhether to enable support for parallel execution, \n"
+	+ "\trequires user to manually delete left-over model files (.params).\n"
+	+ "\t(default: disabled)",
+      "support-parallel-execution", 0, "-support-parallel-execution"));
 
     enm = super.listOptions();
     while (enm.hasMoreElements())
@@ -232,6 +298,8 @@ public class DJLRegressor
       setOutputDir((OutputDirGenerator) Utils.forName(OutputDirGenerator.class, tmpStr, tmpOpts));
     }
 
+    setSupportParallelExecution(Utils.getFlag("support-parallel-execution", options));
+
     super.setOptions(options);
   }
 
@@ -263,6 +331,9 @@ public class DJLRegressor
 
     result.add("-output-dir");
     result.add(Utils.toCommandLine(getOutputDir()));
+
+    if (getSupportParallelExecution())
+      result.add("-support-parallel-execution");
 
     result.addAll(Arrays.asList(super.getOptions()));
 
@@ -441,6 +512,36 @@ public class DJLRegressor
   }
 
   /**
+   * Sets whether to enable support for parallel execution.
+   * If enabled, a unique ID gets appended to model IDs, requiring the user to manually delete unwanted .params files
+   *
+   * @param value 	true if to enable
+   */
+  public void setSupportParallelExecution(boolean value) {
+    m_SupportParallelExecution = value;
+  }
+
+  /**
+   * Gets the output directory generator to use.
+   * If enabled, a unique ID gets appended to model IDs, requiring the user to manually delete unwanted .params files
+   *
+   * @return 		true if enabled
+   */
+  public boolean getSupportParallelExecution() {
+    return m_SupportParallelExecution;
+  }
+
+  /**
+   * Returns the tip text for this property.
+   *
+   * @return		tip text for this property suitable for
+   * 			displaying in the explorer/experimenter gui
+   */
+  public String supportParallelExecutionTipText() {
+    return "If enabled, a unique ID gets appended to model IDs, requiring the user to manually delete unwanted .params files.";
+  }
+
+  /**
    * Returns the Capabilities of this classifier. Maximally permissive
    * capabilities are allowed by default. Derived classifiers should override
    * this method and first disable all capabilities and then enable just those
@@ -482,7 +583,7 @@ public class DJLRegressor
 
     getCapabilities().test(data);
 
-    modelID   = m_ID.generate();
+    modelID   = m_ID.generate() + (m_SupportParallelExecution ? UniqueIDs.next() : "");
     modelDir  = m_OutputDir.generate().getAbsoluteFile();
     modelPath = modelDir.toPath();
     modelName = modelDir + "|" + modelID;
@@ -507,10 +608,10 @@ public class DJLRegressor
       System.out.println("Training model: " + modelID);
 
     m_Dataset = InstancesDataset.builder()
-		.setSampling(m_MiniBatchSize, true)
-		.data(data)
-		.addAllFeatures()
-		.build();
+		  .setSampling(m_MiniBatchSize, true)
+		  .data(data)
+		  .addAllFeatures()
+		  .build();
 
     m_DatasetConfig = m_Dataset.toJson().toString();
     splitDataset    = m_Dataset.randomSplit(m_TrainPercentage, 100 - m_TrainPercentage);
@@ -533,7 +634,7 @@ public class DJLRegressor
 
     trainingConfig = new DefaultTrainingConfig(
       new TabNetRegressionLoss())
-	.addTrainingListeners(TrainingListener.Defaults.basic());
+		       .addTrainingListeners(TrainingListener.Defaults.basic());
 
     try (Trainer trainer = m_Model.newTrainer(trainingConfig)) {
       trainer.initialize(new Shape(1, m_Dataset.getFeatureSize()));
