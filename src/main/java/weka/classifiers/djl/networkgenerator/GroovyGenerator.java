@@ -25,7 +25,7 @@ import ai.djl.nn.Block;
 import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.Utils;
-import weka.core.scripting.Groovy;
+import weka.core.scripting.GroovyMod;
 
 import java.io.File;
 import java.util.Collections;
@@ -201,7 +201,7 @@ public class GroovyGenerator
   protected void initGroovyObject() {
     try {
       if (m_GroovyModule.isFile())
-	m_GroovyObject = (NetworkGenerator) Groovy.newInstance(m_GroovyModule, NetworkGenerator.class);
+	m_GroovyObject = (NetworkGenerator) GroovyMod.newInstance(m_GroovyModule, NetworkGenerator.class, getClass().getClassLoader());
       else
 	m_GroovyObject = null;
 
