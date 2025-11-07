@@ -27,6 +27,7 @@ structure.
 The following example generators using Groovy are available:
 
 * [tabnet.groovy](src/main/groovy/tabnet.groovy)
+* [tabnet_lowlevel.groovy](src/main/groovy/tabnet.groovy) (Groovyfied [TabNet.java](https://github.com/deepjavalibrary/djl/blob/76f0f2646a722f8f337b02a021fe32a95a8b6a7f/model-zoo/src/main/java/ai/djl/basicmodelzoo/tabular/TabNet.java#L317))
 
 
 ## ID generators
