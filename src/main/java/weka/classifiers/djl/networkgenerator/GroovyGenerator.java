@@ -200,10 +200,13 @@ public class GroovyGenerator
    */
   protected void initGroovyObject() {
     try {
-      if (m_GroovyModule.isFile())
-	m_GroovyObject = (NetworkGenerator) GroovyMod.newInstance(m_GroovyModule, NetworkGenerator.class, getClass().getClassLoader());
-      else
+      if (m_GroovyModule.isDirectory()) {
+	System.err.println("ERROR: Groovy script points to a directory!");
 	m_GroovyObject = null;
+      }
+      else {
+	m_GroovyObject = (NetworkGenerator) GroovyMod.newInstance(m_GroovyModule, NetworkGenerator.class, getClass().getClassLoader());
+      }
 
       if ((m_GroovyObject != null) && (m_GroovyObject instanceof OptionHandler))
 	((OptionHandler) m_GroovyObject).setOptions(m_GroovyOptions.clone());
