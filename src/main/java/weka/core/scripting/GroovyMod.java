@@ -177,6 +177,7 @@ public class GroovyMod implements Serializable, RevisionHandler {
     result = null;
 
     if (!isPresent()) {
+      System.err.println("ERROR: Groovy not present?");
       return result;
     }
 
