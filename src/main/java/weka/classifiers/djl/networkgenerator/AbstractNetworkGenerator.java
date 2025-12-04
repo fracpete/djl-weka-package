@@ -97,6 +97,7 @@ public abstract class AbstractNetworkGenerator
    * @param dataset	the dataset to generate the network for
    * @return		the network
    */
+  @Override
   public Block generate(TabularDataset dataset) {
     String	msg;
 
