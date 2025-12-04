@@ -70,8 +70,7 @@ public class GroovyGenerator
 
     result.addElement(
       new Option(
-	"\tThe Groovy module to load (full path)\n"
-	  + "\tOptions after '--' will be passed on to the Groovy module.",
+	"\tThe Groovy module to load (full path).",
 	"G", 1, "-G <filename>"));
 
     result.addElement(
