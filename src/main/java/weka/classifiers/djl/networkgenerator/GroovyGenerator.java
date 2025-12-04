@@ -137,7 +137,7 @@ public class GroovyGenerator
    * @return tip text for this property suitable for displaying in the
    *         explorer/experimenter gui
    */
-  public String GroovyModuleTipText() {
+  public String groovyModuleTipText() {
     return "The Groovy module to load and execute.";
   }
 
@@ -166,7 +166,7 @@ public class GroovyGenerator
    * @return tip text for this property suitable for displaying in the
    *         explorer/experimenter gui
    */
-  public String GroovyOptionsTipText() {
+  public String groovyOptionsTipText() {
     return "The options for the Groovy module.";
   }
 
@@ -218,7 +218,6 @@ public class GroovyGenerator
       e.printStackTrace();
     }
   }
-
 
   /**
    * Generates the network using the supplied dataset.
