@@ -51,6 +51,13 @@ the PyTorch parameters need to get stored in a directory. The output generators
 are used for generating that output directory:
 
 * `weka.classifiers.djl.outputdirgenerator.FixedDir`
+* `weka.classifiers.djl.outputdirgenerator.GroovyGenerator`
+
+### GroovyGenerator
+
+The following example generators using Groovy are available:
+
+* [fixed_dir.groovy](src/main/groovy/fixed_dir.groovy)
 
 
 ## Launch via Maven
