@@ -18,9 +18,8 @@ Network generators construct the network that is being learned. Also used
 when deserializing the model, as the `.params` files do not contain the
 structure.
 
-* `weka.classifiers.djl.network.GroovyGenerator`
-* `weka.classifiers.djl.network.TabularRegressionGenerator`
-
+* `weka.classifiers.djl.networkgenerator.GroovyGenerator`
+* `weka.classifiers.djl.networkgenerator.TabularRegressionGenerator`
 
 ### GroovyGenerator
 
@@ -36,6 +35,13 @@ The ID generators are used to generate a prefix for the `.params` files
 that the training process generates.
 
 * `weka.classifiers.djl.idgenerator.FixedID`
+* `weka.classifiers.djl.idgenerator.GroovyGenerator`
+
+### GroovyGenerator
+
+The following example generators using Groovy are available:
+
+* [fixed_id.groovy](src/main/groovy/fixed_id.groovy)
 
 
 ## Output generators
