@@ -25,13 +25,10 @@ import ai.djl.basicdataset.tabular.ListFeatures;
 import ai.djl.inference.Predictor;
 import ai.djl.ndarray.types.Shape;
 import ai.djl.repository.zoo.ZooModel;
-import ai.djl.training.DefaultTrainingConfig;
 import ai.djl.training.EasyTrain;
 import ai.djl.training.Trainer;
 import ai.djl.training.TrainingConfig;
 import ai.djl.training.dataset.Dataset;
-import ai.djl.training.listener.TrainingListener;
-import ai.djl.training.loss.TabNetRegressionLoss;
 import ai.djl.translate.Translator;
 import weka.classifiers.RandomizableClassifier;
 import weka.classifiers.djl.dataset.InstancesDataset;
@@ -41,6 +38,8 @@ import weka.classifiers.djl.networkgenerator.NetworkGenerator;
 import weka.classifiers.djl.networkgenerator.TabularRegressionGenerator;
 import weka.classifiers.djl.outputdirgenerator.FixedDir;
 import weka.classifiers.djl.outputdirgenerator.OutputDirGenerator;
+import weka.classifiers.djl.trainingconfiggenerator.TabNetRegressionLossGenerator;
+import weka.classifiers.djl.trainingconfiggenerator.TrainingConfigGenerator;
 import weka.core.Capabilities;
 import weka.core.Capabilities.Capability;
 import weka.core.Instance;
@@ -93,6 +92,10 @@ import java.util.Vector;
  * <pre> -output-dir &lt;classname + options&gt;
  *  The output directory generator to use.
  *  (default: weka.classifiers.djl.outputdirgenerator.FixedDir)</pre>
+ *
+ * <pre> -training-config &lt;classname + options&gt;
+ *  The training config generator to use.
+ *  (default: weka.classifiers.djl.trainingconfiggenerator.TabNetRegressionLossGenerator)</pre>
  *
  * <pre> -support-parallel-execution
  *  Whether to enable support for parallel execution,
@@ -147,6 +150,9 @@ public class DJLRegressor
 
   /** the output dir generator. */
   protected OutputDirGenerator m_OutputDir = new FixedDir();
+
+  /** the training config generator. */
+  protected TrainingConfigGenerator m_TrainingConfig = new TabNetRegressionLossGenerator();
 
   /** whether to support parallel execution. */
   protected boolean m_SupportParallelExecution = false;
@@ -220,6 +226,11 @@ public class DJLRegressor
       "\tThe output directory generator to use.\n"
 	+ "\t(default: " + FixedDir.class.getName() + ")",
       "output-dir", 1, "-output-dir <classname + options>"));
+
+    result.add(new Option(
+      "\tThe training config generator to use.\n"
+	+ "\t(default: " + TabNetRegressionLossGenerator.class.getName() + ")",
+      "training-config", 1, "-training-config <classname + options>"));
 
     result.add(new Option(
       "\tWhether to enable support for parallel execution, \n"
@@ -298,6 +309,17 @@ public class DJLRegressor
       setOutputDir((OutputDirGenerator) Utils.forName(OutputDirGenerator.class, tmpStr, tmpOpts));
     }
 
+    tmpStr = Utils.getOption("training-config", options);
+    if (tmpStr.isEmpty()) {
+      setTrainingConfig(new TabNetRegressionLossGenerator());
+    }
+    else {
+      tmpOpts    = Utils.splitOptions(tmpStr);
+      tmpStr     = tmpOpts[0];
+      tmpOpts[0] = "";
+      setTrainingConfig((TrainingConfigGenerator) Utils.forName(TrainingConfigGenerator.class, tmpStr, tmpOpts));
+    }
+
     setSupportParallelExecution(Utils.getFlag("support-parallel-execution", options));
 
     super.setOptions(options);
@@ -331,6 +353,9 @@ public class DJLRegressor
 
     result.add("-output-dir");
     result.add(Utils.toCommandLine(getOutputDir()));
+
+    result.add("-training-config");
+    result.add(Utils.toCommandLine(getTrainingConfig()));
 
     if (getSupportParallelExecution())
       result.add("-support-parallel-execution");
@@ -512,6 +537,34 @@ public class DJLRegressor
   }
 
   /**
+   * Sets the training config generator to use.
+   *
+   * @param value 	the generator
+   */
+  public void setTrainingConfig(TrainingConfigGenerator value) {
+    m_TrainingConfig = value;
+  }
+
+  /**
+   * Gets the training config generator to use.
+   *
+   * @return 		the generator
+   */
+  public TrainingConfigGenerator getTrainingConfig() {
+    return m_TrainingConfig;
+  }
+
+  /**
+   * Returns the tip text for this property.
+   *
+   * @return		tip text for this property suitable for
+   * 			displaying in the explorer/experimenter gui
+   */
+  public String trainingConfigTipText() {
+    return "The generator to use for generating the configuration to train the network.";
+  }
+
+  /**
    * Sets whether to enable support for parallel execution.
    * If enabled, a unique ID gets appended to model IDs, requiring the user to manually delete unwanted .params files
    *
@@ -632,9 +685,7 @@ public class DJLRegressor
       m_Models.put(modelName, m_Model);
     }
 
-    trainingConfig = new DefaultTrainingConfig(
-      new TabNetRegressionLoss())
-		       .addTrainingListeners(TrainingListener.Defaults.basic());
+    trainingConfig = m_TrainingConfig.generate();
 
     try (Trainer trainer = m_Model.newTrainer(trainingConfig)) {
       trainer.initialize(new Shape(1, m_Dataset.getFeatureSize()));

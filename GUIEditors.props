@@ -9,3 +9,7 @@ weka.classifiers.djl.networkgenerator.NetworkGenerator[]=weka.gui.GenericArrayEd
 # output directory generators
 weka.classifiers.djl.outputdirgenerator.OutputDirGenerator=weka.gui.GenericObjectEditor
 weka.classifiers.djl.outputdirgenerator.OutputDirGenerator[]=weka.gui.GenericArrayEditor
+
+# training config generators
+weka.classifiers.djl.trainingconfiggenerator.TrainingConfigGenerator=weka.gui.GenericObjectEditor
+weka.classifiers.djl.trainingconfiggenerator.TrainingConfigGenerator[]=weka.gui.GenericArrayEditor

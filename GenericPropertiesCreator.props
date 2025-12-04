@@ -13,3 +13,7 @@ weka.classifiers.djl.networkgenerator.NetworkGenerator=\
 # output directory generators
 weka.classifiers.djl.outputdirgenerator.OutputDirGenerator=\
   weka.classifiers.djl.outputdirgenerator
+
+# training config generators
+weka.classifiers.djl.trainingconfiggenerator.TrainingConfigGenerator=\
+  weka.classifiers.djl.trainingconfiggenerator

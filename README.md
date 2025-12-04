@@ -60,6 +60,20 @@ The following example generators using Groovy are available:
 * [fixed_dir.groovy](src/main/groovy/fixed_dir.groovy)
 
 
+## Training config generators
+
+The training config generators determine how the training works.
+
+* `weka.classifiers.djl.trainingconfiggenerator.GroovyGenerator`
+* `weka.classifiers.djl.trainingconfiggenerator.TabNetRegressionLossGenerator`
+
+### GroovyGenerator
+
+The following example generators using Groovy are available:
+
+* [tabnet_regressionloss_generator.groovy](src/main/groovy/tabnet_regressionloss_generator.groovy)
+
+
 ## Launch via Maven
 
 You can launch Weka and the DJL package directly via Maven as follows:
