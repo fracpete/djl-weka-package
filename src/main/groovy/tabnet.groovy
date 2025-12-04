@@ -14,12 +14,9 @@ public class TabNetGenerator implements NetworkGenerator {
      * @return		the network
      */
     public Block generate(TabularDataset dataset) {
-        TabularRegressionGenerator  generator;
-
-        generator = new TabularRegressionGenerator()
+        TabularRegressionGenerator generator = new TabularRegressionGenerator()
         generator.setPerformance(Performance.FAST)
 
         return generator.generate(dataset)
     }
-
 }
