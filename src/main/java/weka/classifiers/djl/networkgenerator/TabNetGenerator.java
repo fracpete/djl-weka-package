@@ -38,7 +38,7 @@ import java.util.Vector;
  *
  * @author fracpete (fracpete at waikato dot ac dot nz)
  */
-public class TabularRegressionGenerator
+public class TabNetGenerator
   extends AbstractNetworkGenerator {
 
   private static final long serialVersionUID = -5291136428713862646L;

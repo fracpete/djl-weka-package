@@ -35,7 +35,7 @@ import weka.classifiers.djl.dataset.InstancesDataset;
 import weka.classifiers.djl.idgenerator.FixedID;
 import weka.classifiers.djl.idgenerator.IDGenerator;
 import weka.classifiers.djl.networkgenerator.NetworkGenerator;
-import weka.classifiers.djl.networkgenerator.TabularRegressionGenerator;
+import weka.classifiers.djl.networkgenerator.TabNetGenerator;
 import weka.classifiers.djl.outputdirgenerator.FixedDir;
 import weka.classifiers.djl.outputdirgenerator.OutputDirGenerator;
 import weka.classifiers.djl.trainingconfiggenerator.TabNetRegressionLossGenerator;
@@ -70,7 +70,7 @@ import java.util.Vector;
  *
  * <pre> -network &lt;classname + options&gt;
  *  The network generator to use.
- *  (default: weka.classifiers.djl.networkgenerator.TabularRegressionGenerator)</pre>
+ *  (default: weka.classifiers.djl.networkgenerator.TabNetGenerator)</pre>
  *
  * <pre> -train-percentage &lt;int&gt;
  *  The percentage of the dataset to use for training (1-99).
@@ -134,7 +134,7 @@ public class DJLRegressor
   protected static Map<String,Model> m_Models = new HashMap<>();
 
   /** the network generator to use. */
-  protected NetworkGenerator m_Network = new TabularRegressionGenerator();
+  protected NetworkGenerator m_Network = new TabNetGenerator();
 
   /** the percentage for the network's training set. */
   protected int m_TrainPercentage = 80;
@@ -198,7 +198,7 @@ public class DJLRegressor
 
     result.add(new Option(
       "\tThe network generator to use.\n"
-	+ "\t(default: " + TabularRegressionGenerator.class.getName() + ")",
+	+ "\t(default: " + TabNetGenerator.class.getName() + ")",
       "network", 1, "-network <classname + options>"));
 
     result.add(new Option(
@@ -260,7 +260,7 @@ public class DJLRegressor
 
     tmpStr = Utils.getOption("network", options);
     if (tmpStr.isEmpty()) {
-      setNetwork(new TabularRegressionGenerator());
+      setNetwork(new TabNetGenerator());
     }
     else {
       tmpOpts    = Utils.splitOptions(tmpStr);

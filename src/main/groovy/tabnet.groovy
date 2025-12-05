@@ -2,7 +2,6 @@ import ai.djl.basicdataset.tabular.TabularDataset
 import ai.djl.nn.Block
 import ai.djl.zero.Performance
 import weka.classifiers.djl.networkgenerator.NetworkGenerator
-import weka.classifiers.djl.networkgenerator.TabularRegressionGenerator
 
 
 public class TabNetGenerator implements NetworkGenerator {
@@ -14,9 +13,8 @@ public class TabNetGenerator implements NetworkGenerator {
      * @return		the network
      */
     public Block generate(TabularDataset dataset) {
-        TabularRegressionGenerator generator = new TabularRegressionGenerator()
+        weka.classifiers.djl.networkgenerator.TabNetGenerator generator = new weka.classifiers.djl.networkgenerator.TabNetGenerator()
         generator.setPerformance(Performance.FAST)
-
         return generator.generate(dataset)
     }
 }

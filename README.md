@@ -19,7 +19,7 @@ when deserializing the model, as the `.params` files do not contain the
 structure.
 
 * `weka.classifiers.djl.networkgenerator.GroovyGenerator`
-* `weka.classifiers.djl.networkgenerator.TabularRegressionGenerator`
+* `weka.classifiers.djl.networkgenerator.TabNetGenerator`
 
 ### GroovyGenerator
 
