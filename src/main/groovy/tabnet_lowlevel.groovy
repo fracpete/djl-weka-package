@@ -445,7 +445,7 @@ public class TabNetGeneratorLowLevel extends AbstractNetworkGenerator {
                 NDArray sparseLoss =
                         mask.singletonOrThrow()
                                 .mul(-1)
-                                .mul(NDArrays.add(mask.singletonOrThrow(), 1e-10).log())
+                                .mul(NDArrays.add(mask.singletonOrThrow(), Double.valueOf(1e-10)).log())
                 NDList x1 = featureTransformer_.forward(parameterStore, new NDList(x), training)
                 return new NDList(x1.singletonOrThrow(), sparseLoss)
             }
