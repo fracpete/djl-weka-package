@@ -391,7 +391,7 @@ public class TabNetGeneratorLowLevel extends AbstractNetworkGenerator {
         /** DecisionStep is just combining featureTransformer and attentionTransformer together. */
         public static final class DecisionStep extends AbstractBlock {
             private static final Byte VERSION = 1
-            private Block featureTransformer
+            private Block featureTransformer_
             private Block attentionTransformer
 
             /**
@@ -414,7 +414,7 @@ public class TabNetGeneratorLowLevel extends AbstractNetworkGenerator {
                     int virtualBatchSize,
                     float batchNormMomentum) {
                 super(VERSION)
-                this.featureTransformer =
+                this.featureTransformer_ =
                         addChildBlock(
                                 "featureTransformer",
                                 featureTransformer(
@@ -446,7 +446,7 @@ public class TabNetGeneratorLowLevel extends AbstractNetworkGenerator {
                         mask.singletonOrThrow()
                                 .mul(-1)
                                 .mul(NDArrays.add(mask.singletonOrThrow(), 1e-10).log())
-                NDList x1 = featureTransformer.forward(parameterStore, new NDList(x), training)
+                NDList x1 = featureTransformer_.forward(parameterStore, new NDList(x), training)
                 return new NDList(x1.singletonOrThrow(), sparseLoss)
             }
 
@@ -455,7 +455,7 @@ public class TabNetGeneratorLowLevel extends AbstractNetworkGenerator {
             public Shape[] getOutputShapes(Shape[] inputShapes) {
                 Shape[] xShape = new Shape[]{inputShapes[0]}
                 Shape[] aShape = new Shape[]{inputShapes[1], inputShapes[2]}
-                Shape[] x1Shape = featureTransformer.getOutputShapes(xShape)
+                Shape[] x1Shape = featureTransformer_.getOutputShapes(xShape)
                 Shape[] lossShape = attentionTransformer.getOutputShapes(aShape)
                 return new Shape[] {x1Shape[0], lossShape[0]}
             }
@@ -467,7 +467,7 @@ public class TabNetGeneratorLowLevel extends AbstractNetworkGenerator {
                 Shape[] xShape = new Shape[]{inputShapes[0]}
                 Shape[] aShape = new Shape[]{inputShapes[1], (Shape) inputShapes[2]}
                 this.attentionTransformer.initialize(manager, dataType, aShape)
-                this.featureTransformer.initialize(manager, dataType, xShape)
+                this.featureTransformer_.initialize(manager, dataType, xShape)
             }
         }
 
