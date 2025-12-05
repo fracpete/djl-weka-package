@@ -23,21 +23,3 @@
 * Create a release tag on github (v2025.12.5)
 * add release notes
 * upload package archive from `dist`
-
-
-## Maven
-
-* Switch to Java 11
-* Run the following command to deploy the artifact:
-
-  ```bash
-  mvn release:clean release:prepare release:perform
-  ```
-
-* log into https://central.sonatype.com/publishing/deployments and deploy artifacts
-
-* After successful deployment, push the changes out:
-
-  ```bash
-  git push
-  ````

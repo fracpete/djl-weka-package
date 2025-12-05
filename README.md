@@ -104,23 +104,3 @@ set MAVEN_OPTS=-Xmx2g
 For more information on how to install the package, see:
 
 https://waikato.github.io/weka-wiki/packages/manager/
-
-
-## Maven
-
-Add the following dependency in your `pom.xml` to include the package:
-
-```xml
-    <dependency>
-      <groupId>com.github.fracpete</groupId>
-      <artifactId>djl-weka-package</artifactId>
-      <version>2025.6.30-SNAPSHOT</version>
-      <type>jar</type>
-      <exclusions>
-        <exclusion>
-          <groupId>nz.ac.waikato.cms.weka</groupId>
-          <artifactId>weka-dev</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-```
