@@ -6,7 +6,7 @@ import ai.djl.training.optimizer.Optimizer
 import ai.djl.training.tracker.Tracker
 import weka.classifiers.djl.trainingconfiggenerator.TrainingConfigGenerator
 
-public class TabNetRegressionLossConfigGenerator implements TrainingConfigGenerator {
+public class L2LossConfigGenerator implements TrainingConfigGenerator {
 
     /**
      * Generates the training configuration to use.
